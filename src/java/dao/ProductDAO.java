@@ -33,11 +33,11 @@ public class ProductDAO extends DAO {
         return list;
     }
 
-    public Product getProductInfo(int id) {
+    public Product getProductInfo(int productId) {
         String sql = "SELECT * FROM Product WHERE id=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Product(
