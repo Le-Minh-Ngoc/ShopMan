@@ -208,11 +208,11 @@
                             <%
                                 java.util.List<model.Invoice> listInvoice = 
                                     (java.util.List<model.Invoice>) request.getAttribute("listInvoice");
-                                float totalAmount = 0;
+                                float sum = 0;
                                 if (listInvoice != null && !listInvoice.isEmpty()) {
                                     int stt = 1;
                                     for (model.Invoice inv : listInvoice) {
-                                        totalAmount += inv.getTotal();
+                                        sum += inv.getTotal();
                             %>
                             <tr>
                                 <td><%= stt++ %></td>
@@ -228,7 +228,7 @@
                             %>
                             <tr style="background: #f8f9fa; font-weight: 600; font-size: 16px; color: #e74c3c;">
                                 <td colspan="3" style="text-align: right; padding: 16px 14px;">💰 Tổng cộng</td>
-                                <td style="text-align: right;"><%= String.format("%,.0f", totalAmount) %></td>
+                                <td style="text-align: right;"><%= String.format("%,.0f", sum) %></td>
                                 <td></td>
                             </tr>
                             <%

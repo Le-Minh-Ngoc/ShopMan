@@ -40,13 +40,14 @@ public class ProductDAO extends DAO {
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Product(
+                Product p = new Product(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getFloat("price"),
                     rs.getInt("stock"),
                     rs.getString("describe")
                 );
+                return p;
             }
         } catch (SQLException e) {
             e.printStackTrace();

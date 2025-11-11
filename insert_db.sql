@@ -963,6 +963,7 @@ INNER JOIN Product p ON id.Productid = p.id
 SET id.price = p.price
 WHERE id.id > 0;
 
+-- Cập nhật số lượng
 UPDATE InvoiceDetails id
 INNER JOIN Product p ON id.Productid = p.id
 SET id.quantity = 1

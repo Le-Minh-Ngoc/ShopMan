@@ -13,16 +13,12 @@ public class InvoiceDAO extends DAO {
     public List<Invoice> getInvoiceOfCustomer(int customerId, java.sql.Date startDate, java.sql.Date endDate) {
         List<Invoice> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT i.*, cu.fullname as customer_name, su.fullname as sales_name, du.fullname as delivery_name, ")
+        sql.append("SELECT i.*, u.fullname as customer_name, ")
            .append("COALESCE(SUM(id.price * id.quantity), 0) as total ")
            .append("FROM Invoice i ")
            .append("LEFT JOIN InvoiceDetails id ON i.id = id.Invoiceid ")
            .append("LEFT JOIN Customer c ON i.Customerid = c.Userid ")
-           .append("LEFT JOIN User cu ON c.Userid = cu.id ")
-           .append("LEFT JOIN Sales sa ON i.Salesid = sa.Staffid ")
-           .append("LEFT JOIN User su ON sa.Staffid = su.id ")
-           .append("LEFT JOIN Delivery de ON i.Deliveryid = de.Staffid ")
-           .append("LEFT JOIN User du ON de.Staffid = du.id ")
+           .append("LEFT JOIN User u ON c.Userid = u.id ")
            .append("WHERE i.Customerid = ? ");
         
         // Thêm điều kiện lọc theo ngày nếu có
@@ -33,13 +29,13 @@ public class InvoiceDAO extends DAO {
             sql.append("AND i.date <= ? ");
         }
         
-        sql.append("GROUP BY i.id, i.date, i.status, i.Customerid, i.Salesid, i.Deliveryid, cu.fullname, su.fullname, du.fullname ")
+        sql.append("GROUP BY i.id, i.date, i.Customerid, u.fullname ")
            .append("ORDER BY i.date DESC");
         
         try {
             PreparedStatement ps = con.prepareStatement(sql.toString());
             int paramIndex = 1;
-            ps.setInt(paramIndex++, customerId);
+            ps.setInt(paramIndex++, customerId);    
             
             if (startDate != null) {
                 ps.setDate(paramIndex++, startDate);
@@ -60,20 +56,6 @@ public class InvoiceDAO extends DAO {
                 cus.setId(customerId);
                 cus.setFullname(rs.getString("customer_name"));
                 invoice.setCus(cus);
-                
-                if (rs.getInt("Salesid") != 0) {
-                    Sales sales = new Sales();
-                    sales.setId(rs.getInt("Salesid"));
-                    sales.setFullname(rs.getString("sales_name"));
-                    invoice.setSales(sales);
-                }
-                
-                if (rs.getInt("Deliveryid") != 0) {
-                    Delivery delivery = new Delivery();
-                    delivery.setId(rs.getInt("Deliveryid"));
-                    delivery.setFullname(rs.getString("delivery_name"));
-                    invoice.setDel(delivery);
-                }
                 
                 list.add(invoice);
             }
