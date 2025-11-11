@@ -235,26 +235,26 @@
                         </thead>
                         <tbody>
                             <%
-                                java.util.List<java.util.Map<String, Object>> listCustomer = 
-                                    (java.util.List<java.util.Map<String, Object>>) request.getAttribute("listCustomer");
+                                java.util.List<model.CustomerStatistics> listCustomer = 
+                                    (java.util.List<model.CustomerStatistics>) request.getAttribute("listCustomer");
                                 double totalRevenue = 0;
                                 if (listCustomer != null && !listCustomer.isEmpty()) {
                                     int stt = 1;
-                                    for (java.util.Map<String, Object> customer : listCustomer) {
-                                        totalRevenue += ((Number) customer.get("totalRevenue")).doubleValue();
+                                    for (model.CustomerStatistics customer : listCustomer) {
+                                        totalRevenue += customer.getTotalRevenue();
                             %>
                             <tr>
                                 <td><%= stt++ %></td>
-                                <td>KH<%= String.format("%03d", customer.get("id")) %></td>
-                                <td><%= customer.get("fullname") %></td>
-                                <td><%= customer.get("address") %></td>
-                                <td><%= customer.get("tel") %></td>
-                                <td><%= String.format("%,.0f", (Float) customer.get("totalRevenue")) %></td>
+                                <td>KH<%= String.format("%03d", customer.getId()) %></td>
+                                <td><%= customer.getFullname() %></td>
+                                <td><%= customer.getAddress() %></td>
+                                <td><%= customer.getTel() %></td>
+                                <td><%= String.format("%,.0f", customer.getTotalRevenue()) %></td>
                                 <td>
                                     <%
                                         String startDateParam = request.getAttribute("startDate") != null ? (String) request.getAttribute("startDate") : "";
                                         String endDateParam = request.getAttribute("endDate") != null ? (String) request.getAttribute("endDate") : "";
-                                        String urlParams = "customerId=" + customer.get("id");
+                                        String urlParams = "customerId=" + customer.getId();
                                         if (!startDateParam.isEmpty()) {
                                             urlParams += "&startDate=" + startDateParam;
                                         }

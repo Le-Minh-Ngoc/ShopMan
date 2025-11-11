@@ -126,8 +126,28 @@ public class InvoiceDAO extends DAO {
                     invoice.setDel(delivery);
                 }
                 
-                // Get invoice details
-                List<InvoiceDetails> detailsList = getInvoiceDetailsList(invoiceId);
+                // Get invoice details list
+                List<InvoiceDetails> detailsList = new ArrayList<>();
+                String detailsSql = "SELECT idt.price, idt.quantity, p.name AS product_name "
+                               + "FROM InvoiceDetails idt JOIN Product p ON idt.Productid = p.id "
+                               + "WHERE idt.Invoiceid = ?";
+                try {
+                    PreparedStatement psDetails = con.prepareStatement(detailsSql);
+                    psDetails.setInt(1, invoiceId);
+                    ResultSet rsDetails = psDetails.executeQuery();
+                    while (rsDetails.next()) {
+                        InvoiceDetails detail = new InvoiceDetails();
+                        float price = rsDetails.getFloat("price");
+                        int quantity = rsDetails.getInt("quantity");
+                        detail.setPrice(price);
+                        detail.setQuantity(quantity);
+                        detail.setTotal(price * quantity);
+                        detail.setProductName(rsDetails.getString("product_name"));
+                        detailsList.add(detail);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 invoice.setListInvoice(detailsList);
                 
                 return invoice;
@@ -136,30 +156,5 @@ public class InvoiceDAO extends DAO {
             e.printStackTrace();
         }
         return null;
-    }
-    
-    private List<InvoiceDetails> getInvoiceDetailsList(int invoiceId) {
-        List<InvoiceDetails> list = new ArrayList<>();
-        String sql = "SELECT idt.price, idt.quantity, p.name AS product_name "
-                   + "FROM InvoiceDetails idt JOIN Product p ON idt.Productid = p.id "
-                   + "WHERE idt.Invoiceid = ?";
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, invoiceId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                InvoiceDetails detail = new InvoiceDetails();
-                float price = rs.getFloat("price");
-                int quantity = rs.getInt("quantity");
-                detail.setPrice(price);
-                detail.setQuantity(quantity);
-                detail.setTotal(price * quantity);
-                detail.setProductName(rs.getString("product_name"));
-                list.add(detail);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 }
