@@ -1,0 +1,16 @@
+Một hệ thống quản lý bán hàng bách hóa trực tuyến (ShopMan) cho phép nhân viên quản lí,
+nhân viên bán hàng, và khách hàng sử dụng. Sau khi đăng nhập, các tác nhân có thể thực hiện:
+• Nhân viên quản lí: xem các loại thống kê: hàng nhập, hàng xuất, khách hàng và nhà
+cung cấp. Quản lí thông tin hàng hóa. Nhập hàng từ nhà cung cấp, quản lí thông tin nhà
+cung cấp
+• Nhân viên bán hàng: duyệt hóa đơn trực tuyến, đóng hàng và giao cho nhân viên giao
+hàng
+• Khách hàng: đăng kí thành viên, tìm và tra cứu thông tin hàng hóa, đặt mua hàng trực
+tuyến, theo dõi trạng thái hóa đơn.
+• Chức năng khách hàng tìm kiếm mặt hàng: chọn menu tìm mặt hàng → nhập tên mặt
+hàng để tìm → hệ thống hiện danh sách các mặt hàng có tên chứa từ khóa vừa nhập →
+click vào một mặt hàng xem chi tiết → hệ thống hiện thông tin chi tiết về mặt hàng.
+• Chức năng nhân viên thống kê khách hàng theo doanh thu: chọn menu xem báo cáo
+→ chọn thống kê khách hàng theo doanh thu → chọn ngày bắt đầu, kết thúc thống kê →
+xem thống kê khách hàng → click vào một khách hàng → xem chi tiết các lần khách
+hàng đã mua → click vào một lần → xem hóa đơn chi tiết tương ứng.
