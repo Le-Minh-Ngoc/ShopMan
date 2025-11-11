@@ -115,7 +115,7 @@ CREATE TABLE ReceiptDetails (
 -- =======================
 CREATE TABLE Invoice (
     id INT(10) AUTO_INCREMENT PRIMARY KEY,
-    date TIMESTAMP NOT NULL,
+    date DATE NOT NULL,
     status VARCHAR(255),
     Customerid INT(10) NOT NULL,
     Salesid INT(10) NOT NULL,
